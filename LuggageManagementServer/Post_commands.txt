@@ -1,5 +1,0 @@
-Add luggage:
-curl -i -X POST -d "{\"data\":{\"type\":\"luggage\", \"attributes\":{\"name\":\"Luggage1\", \"address\":\"Address1\"}}}" -H "Content-Type:application/vnd.api+json" http://localhost:5000/luggages
-
-Add box:
-curl -i -X POST -d "{\"data\":{\"type\":\"box\", \"attributes\":{\"number\":1, \"luggage_id\":1, \"isOpen\":0, \"size\":\"Medium\"}}}" -H "Content-Type:application/vnd.api+json" http://localhost:5000/boxes
