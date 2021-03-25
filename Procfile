@@ -1,1 +1,1 @@
-web: gunicorn lms:lms
+web: gunicorn lms:app
