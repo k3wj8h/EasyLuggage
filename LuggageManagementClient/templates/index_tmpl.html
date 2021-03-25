@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <title>EasyLuggage</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index_tmpl.css') }}">
+</head>
+<body>
+
+  <h1>Luggage Management Client</h1>
+
+  <hr>
+
+  <h2>Luggages</h2>
+  <!-- Responsive table starts here -->
+  <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+  <div class="table-responsive-vertical shadow-z-1">
+    <!-- Table starts here -->
+    <table id="table" class="table table-hover table-mc-light-blue">
+      <tbody>
+        {% for luggage in data.data %}
+          <tr onclick="window.location.href='/luggages/'+{{luggage.id}}">
+              <td>
+                <img src="{{ url_for('static',filename='pictures/luggage.png') }}" alt="Luggage{{luggage.attributes.name}}" style="width:60px;height:60px;">
+              </td>
+              <td>
+                <div>
+                  {{ luggage.attributes.name }} <br> {{ luggage.attributes.address }}
+                </div>
+              </td>
+              <!--<td data-title="ID">{{ luggage.id }}</td>
+              <td data-title="Name">{{ luggage.attributes.name }}</td>
+              <td data-title="Address">{{ luggage.attributes.address }}</td>-->
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <form action="/new_luggage" METHOD="POST">
+    <input type="text" placeholder="Name" name="name" value="">
+    <input type="text" placeholder="Address" name="address" value="">
+    <input type="submit" value="Add Luggage">
+  </form>
+
+</body>
+</html>

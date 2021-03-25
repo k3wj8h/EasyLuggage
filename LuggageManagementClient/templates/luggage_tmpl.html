@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <title>EasyLuggage</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index_tmpl.css') }}">
+</head>
+<body>
+
+  <h1>Luggage Management Client</h1>
+  <hr>
+
+  <h2>{{luggage_data.data.attributes.name}}</h2>
+
+  <p>ID: {{luggage_data.data.id}} | Name: {{luggage_data.data.attributes.name}} | Address: {{luggage_data.data.attributes.address}}</p>
+  <form action="/luggages/{{luggage_data.data.id}}" METHOD="POST">
+    <input type="submit" value="Remove Luggage">
+  </form>
+
+  <hr>
+
+  <h2>Boxes</h2>
+
+  <!-- Responsive table starts here -->
+  <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+  <div class="table-responsive-vertical shadow-z-1">
+    <!-- Table starts here -->
+    <table id="table" class="table table-hover table-mc-light-blue">
+      <tbody>
+        {% for box in boxes_data.data %}
+        <tr onclick="window.location.href='/luggages/' + {{luggage_data.data.id}} + '/boxes/' + {{box.id}}"  bgcolor={% if box.attributes.isOpen == 1 %}"#6ce366"{% else %}"#fc4542"{% endif %}>
+          <td>
+            <img src="{{ url_for('static',filename='pictures/box.png') }}" alt="Luggage{{box.attributes.id}}" style="width:40px;height:40px;">
+          </td>
+          <td>
+            <div>ID: {{box.id}}<br>{{box.attributes.size}}</div>
+          </td>
+          <td>
+            <div>
+              {% if box.attributes.isOpen == 1 %}
+              <form action="/luggages/{{luggage_data.data.id}}/boxes/{{box.id}}/close" METHOD="POST">
+                <input type="submit" value="Close Box">
+              </form>
+              {% else %}
+              <form action="/luggages/{{luggage_data.data.id}}/boxes/{{box.id}}/open" METHOD="POST">
+                <input type="submit" value="Open Box">
+              </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <form action="/luggages/{{luggage_data.data.id}}/new_box" METHOD="POST">
+    <select name="size">
+      <option value="Small">Small</option>
+      <option value="Medium">Medium</option>
+      <option value="Large">Large</option>
+    </select>
+    <input type="submit" value="Add Box">
+  </form>
+
+  <hr>
+
+  <a href="/">
+     <input type="button" value="Back to the Main page" />
+  </a>
+
+</body>
+</html>
