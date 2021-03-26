@@ -1,1 +1,93 @@
-<h1>Easy Luggage Client</h1>
+<!DOCTYPE HTML>
+<html lang='hu'>
+<head>
+	<title>Luggage Management Client</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	
+	<link rel="stylesheet" type="text/css" href="lmc.css">
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			$.get("https://easyluggage.herokuapp.com/luggages", function(data){
+				// Display the returned data in browser
+				let data_str = "<table class='table table-hover table-mc-light-blue'><tbody>";
+				for (var i=0;i<data.data.length;i++){
+					data_str += "<tr id='luggage_"+data.data[i].id+"'><td><img src='luggage.png' style='width:60px;height:60px;'></td><td>"+data.data[i].attributes.name+"</td></tr>";
+				}
+				data_str += "</tbody></table>"
+				$("#luggages").html(data_str);
+				for (var i=0;i<data.data.length;i++){
+					document.getElementById("luggage_"+data.data[i].id).addEventListener("click", function(){getBoxes(this.id)}, false);
+				}
+			});
+			
+			var getBoxes = function(luggage) {
+				var luggage_id = luggage.substring(8);
+				$("#boxes_header").html("Boxes (Luggage" + luggage_id + ")");
+				$.get("https://easyluggage.herokuapp.com/boxes?filter=[{\"name\":\"luggage_id\",\"op\":\"eq\",\"val\":" + luggage_id + "}]", function(data){
+					let data_str = "<table><tbody>";
+					var bgcolor;
+					var btn_label;
+					for (var j=0;j<data.data.length;j++){
+						if (data.data[j].attributes.isOpen == 1) {
+							bgcolor="#6ce366";
+							btn_label="Close";
+						} else {
+							bgcolor="#fc4542";
+							btn_label="Open";
+						}
+						data_str += "<tr id='box_"+data.data[j].id+"' bgcolor='"+ bgcolor +"'>";
+						data_str += "<td><img src='box.png' style='width:40px;height:40px;'></td>";
+						data_str += "<td>Box_"+data.data[j].id+"<br>"+data.data[j].attributes.size+"</td>";
+						data_str += "<td><button id='btn_"+data.data[j].id+"' luggage='luggage_"+luggage_id+"'>"+btn_label+"</button></td>"
+						data_str += "</tr>";
+					}
+					data_str +="</tbody></table>";
+					$("#boxes").html(data_str);
+					for (var j=0;j<data.data.length;j++){
+						document.getElementById("btn_"+data.data[j].id).addEventListener("click", function(){changeBoxes(this.id)}, false);
+					}
+				});
+			};
+			
+			var changeBoxes = function(box) {
+				var box_id = box.substring(4);
+				var action;
+				if (document.getElementById(box).innerHTML == "Open") {action = 1;} else {action = 0;}
+				var url = "https://easyluggage.herokuapp.com/boxes/" + box_id
+				var data = {"data": {"type": "box", "id": box_id, "attributes": {"isOpen": action}}}
+				$.ajax({
+					type: 'PATCH',
+					url: url,
+					data: JSON.stringify(data),
+					processData: false,
+					contentType: 'application/vnd.api+json'
+				});
+				var luggage = $("#"+box).attr("luggage")
+				getBoxes(luggage);
+			};
+			
+		});
+	</script>
+</head>
+
+<body>
+</body>
+
+	<h1>Luggage Management Client<h2>
+
+	<hr>
+	
+	<!-- Luggages -->
+	<h2>Luggages</h2>
+	<div id="luggages"></div>
+	
+	<hr>
+	
+	<!-- Boxes -->
+	<h2 id=boxes_header></h2>
+	<div id="boxes"></div>
+	
+</html>
