@@ -16,6 +16,7 @@ fbchat==1.9.6
 Flask==1.1.2
 Flask-REST-JSONAPI==0.31.2
 Flask-SQLAlchemy==2.5.1
+gunicorn==20.0.4
 hyperlink==19.0.0
 idna==2.8
 incremental==17.5.0
