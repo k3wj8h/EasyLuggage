@@ -56,8 +56,8 @@
 				var box_id = box.substring(4);
 				var action;
 				if (document.getElementById(box).innerHTML == "Open") {action = 1;} else {action = 0;}
-				var url = "https://easyluggage.herokuapp.com/boxes/" + box_id
-				var data = {"data": {"type": "box", "id": box_id, "attributes": {"isOpen": action}}}
+				var url = "https://easyluggage.herokuapp.com/boxes/" + box_id;
+				var data = {"data": {"type": "box", "id": box_id, "attributes": {"isOpen": action}}};
 				$.ajax({
 					type: 'PATCH',
 					url: url,
