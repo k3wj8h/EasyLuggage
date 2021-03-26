@@ -24,7 +24,6 @@
 			});
 			
 			var getBoxes = function(luggage) {
-				alert("getBoxes_start");
 				var luggage_id = luggage.substring(8);
 				$("#boxes_header").html("Boxes (Luggage" + luggage_id + ")");
 				$.get("https://easyluggage.herokuapp.com/boxes?filter=[{\"name\":\"luggage_id\",\"op\":\"eq\",\"val\":" + luggage_id + "}]", function(data){
@@ -50,8 +49,8 @@
 					for (var j=0;j<data.data.length;j++){
 						document.getElementById("btn_"+data.data[j].id).addEventListener("click", function(){changeBoxes(this.id)}, false);
 					}
+					alert("getBoxes_done");
 				});
-				alert("getBoxes_end");
 			};
 			
 			var changeBoxes = function(box) {
