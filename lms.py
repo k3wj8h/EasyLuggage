@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from marshmallow_jsonapi.flask import Schema, Relationship
 from marshmallow_jsonapi import fields
 from flask_rest_jsonapi import Api, ResourceDetail, ResourceList, ResourceRelationship
+from flask_cors import CORS
 
 
 ''' Sources
@@ -13,6 +14,7 @@ https://www.freecodecamp.org/news/build-a-simple-json-api-in-python/
 # Create a new Flask application
 app = Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 # Set up SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lms.db'
