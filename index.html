@@ -65,10 +65,7 @@
 					processData: false,
 					contentType: 'application/vnd.api+json'
 				});
-				var luggage = $("#"+box).attr("luggage");
-				alert("getBoxes_before");
-				getBoxes(luggage);
-				alert("getBoxes_after");
+				getBoxes($("#"+box).attr("luggage"));
 			};
 			
 		});
